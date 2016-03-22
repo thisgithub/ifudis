@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="UTF-8">
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss} %5p %c:%L] [%t] [%X{syncThread}] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="stdout" />
+    </root>
+
+    <appender name="ifudisLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${catalina.base}/logs/ifudis-main.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <!-- 最多保留一周的日志，7*24=168 -->
+            <maxHistory>168</maxHistory>
+        </rollingPolicy>
+        <encoder charset="UTF-8">
+            <pattern>%d{HH:mm:ss} [%X{syncThread}] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ifudis" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>10000</queueSize>
+        <appender-ref ref="ifudisLog" />
+    </appender>
+
+    <!--<logger name="com.schedule.manage" level="INFO" additivity="true">-->
+        <!--<appender-ref ref="schedule" />-->
+        <!--<appender-ref ref="stdout" />-->
+    <!--</logger>-->
+
+</configuration>
